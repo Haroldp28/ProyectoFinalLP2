@@ -10,8 +10,8 @@ import jakarta.persistence.Table;
 @Table(name = "tbl_categoria")
 public class TblCategoria {
 	
-	 @Id
-	 @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idcategoria;
 	private String nomcategoria;
 	
