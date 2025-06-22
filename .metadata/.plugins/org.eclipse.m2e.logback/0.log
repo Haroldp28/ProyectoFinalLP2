@@ -1,0 +1,11 @@
+2025-06-19 13:39:54,759 [Worker-4: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is not available. Remote download required.
+2025-06-19 13:42:55,428 [Worker-8: Building] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.bd.java:ProyectoSpringBDJPAMysqlMiercoles:0.0.1-SNAPSHOT @ C:\LP2\SPRING TOOL EJEMPLO COMPLETO\ProyectoSpringBDJPAMysqlMiercoles\ProyectoSpringBDJPAMysqlMiercoles\pom.xml.
+2025-06-19 13:42:56,351 [Worker-8: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-06-19 13:42:56,361 [Worker-8: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 2 resources from src\main\resources to target\classes
+2025-06-19 13:42:56,367 [Worker-8: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\LP2\SPRING TOOL EJEMPLO COMPLETO\ProyectoSpringBDJPAMysqlMiercoles\ProyectoSpringBDJPAMysqlMiercoles\src\test\resources
+2025-06-19 13:42:57,676 [Worker-4: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-06-19 13:42:57,679 [Worker-4: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 2 resources from src\main\resources to target\classes
+2025-06-19 13:42:57,684 [Worker-4: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\LP2\SPRING TOOL EJEMPLO COMPLETO\ProyectoSpringBDJPAMysqlMiercoles\ProyectoSpringBDJPAMysqlMiercoles\src\test\resources
+2025-06-19 23:42:16,586 [Worker-26: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-06-19 23:42:16,607 [Worker-26: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 2 resources from src\main\resources to target\classes
+2025-06-19 23:42:16,610 [Worker-26: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\LP2\SPRING TOOL EJEMPLO COMPLETO\ProyectoSpringBDJPAMysqlMiercoles\ProyectoSpringBDJPAMysqlMiercoles\src\test\resources

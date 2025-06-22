@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	
+	<head>
+		<title>Registrar Productos</title>
+		<style>
+			html{
+				background-color: #c5dec9;
+			}
+		</style>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+	</head>
+	<body>
+		<h1 align="center">
+			Registrar Productos
+		</h1>
+		
+		<form th:action="@{/vistas/GuardarProducto}" method="post" 
+	th:object="${regproducto}">
+		<table align="center" border="2">
+			<input type="hidden" th:field="*{idproducto}">
+			<tr>
+				<td>
+					producto
+				</td>
+				<td>
+					<input type="text" th:field="*{nomproducto}">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					precio
+				</td>
+				<td>
+					<input type="number" th:field="*{precproducto}" step="0.01" >
+				</td>
+			</tr>
+			<tr>
+							<td>
+								fecha de elaboracion
+							</td>
+							<td>
+								<input type="date" th:field="*{fechaelaproducto}">
+							</td>
+						</tr>
+
+			<tr>
+				<td>
+					fecha de vencimiento
+				</td>
+				<td>
+					<input type="date" th:field="*{fechavenproducto}">
+				</td>
+			</tr>		
+						<tr>
+						    <td>Categoría</td>
+						    <td>
+						        <select th:field="*{categoria}" >
+						            <option value="" disabled selected>Seleccione una Categoría</option>
+						            <option th:each="cat : ${listacategorias}" 
+						                    th:value="${cat.idcategoria}" 
+						                    th:text="${cat.nomcategoria}">
+						            </option>
+						        </select>
+						    </td>
+						</tr>			
+			<tr>
+
+				<td colspan="2" align="center">
+					<input type="submit" value="registrar producto" class="btn btn-primary">
+				</td>
+			</tr>		
+</table>
+	</form>
+		
+	</body>
+	</html>
