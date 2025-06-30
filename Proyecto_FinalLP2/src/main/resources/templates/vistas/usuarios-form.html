@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${titulo} + ' - Panadería Copacabana'">Usuario - Panadería Copacabana</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 50%, #F4A460 100%);
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #8B4513, #A0522D);
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .navbar-brand {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .navbar-nav {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .breadcrumb {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .breadcrumb a {
+            color: #8B4513;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb span {
+            color: #666;
+            margin: 0 8px;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #8B4513;
+        }
+
+        .form-header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            color: #666;
+        }
+
+        .user-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .form-label.required::after {
+            content: ' *';
+            color: #dc3545;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #D2691E;
+            box-shadow: 0 0 0 3px rgba(210, 105, 30, 0.1);
+        }
+
+        .form-control.is-invalid {
+            border-color: #dc3545;
+        }
+
+        .form-select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 8px center;
+            background-repeat: no-repeat;
+            background-size: 16px 12px;
+            padding-right: 40px;
+            appearance: none;
+        }
+
+        .invalid-feedback {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .form-help {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+            min-width: 140px;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #A0522D, #CD853F);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .required-note {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 20px;
+            color: #856404;
+            font-size: 14px;
+        }
+
+        .password-hint {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 5px;
+            color: #0c5460;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .form-container {
+                padding: 20px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .navbar-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="/admin/dashboard" class="navbar-brand">
+                <i class="fas fa-bread-slice"></i> Panadería Copacabana
+            </a>
+            <div class="navbar-nav">
+                <a href="/admin/dashboard" class="nav-item">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <a href="/usuarios" class="nav-item">
+                    <i class="fas fa-users-cog"></i> Usuarios
+                </a>
+                <a href="/cerrar-sesion" class="nav-item">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb">
+            <a href="/admin/dashboard">
+                <i class="fas fa-home"></i> Inicio
+            </a>
+            <span>/</span>
+            <a href="/usuarios">Usuarios</a>
+            <span>/</span>
+            <span th:text="${titulo}">Nuevo Usuario</span>
+        </nav>
+
+        <!-- Formulario -->
+        <div class="form-container">
+            <div class="form-header">
+                <div class="user-icon">
+                    <i class="fas fa-user-plus" th:if="${usuario.idusuario == null}"></i>
+                    <i class="fas fa-user-edit" th:if="${usuario.idusuario != null}"></i>
+                </div>
+                <h1 th:text="${titulo}">Nuevo Usuario</h1>
+                <p th:if="${usuario.idusuario == null}">Completa la información del nuevo usuario del sistema</p>
+                <p th:if="${usuario.idusuario != null}">Modifica la información del usuario</p>
+            </div>
+
+            <!-- Mensajes de error -->
+            <div th:if="${error}" class="alert alert-danger">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span th:text="${error}"></span>
+            </div>
+
+            <!-- Mensajes de éxito -->
+            <div th:if="${success}" class="alert alert-success">
+                <i class="fas fa-check-circle"></i>
+                <span th:text="${success}"></span>
+            </div>
+
+            <!-- Nota sobre campos requeridos -->
+            <div class="required-note">
+                <i class="fas fa-info-circle"></i>
+                Los campos marcados con asterisco (*) son obligatorios
+            </div>
+
+            <form th:action="@{/usuarios/guardar}" method="post" th:object="${usuario}" novalidate>
+                <!-- ID oculto para edición (solo incluir si NO es nulo) -->
+                <input type="hidden" th:field="*{idusuario}" th:if="${usuario.idusuario != null}">
+
+                <!-- Usuario -->
+                <div class="form-group">
+                    <label for="usuario" class="form-label required">Nombre de Usuario</label>
+                    <input type="text" 
+                           id="usuario" 
+                           name="usuario"
+                           th:value="${usuario.usuario}"
+                           class="form-control" 
+                           th:classappend="${#fields.hasErrors('usuario')} ? 'is-invalid' : ''"
+                           placeholder="Ingrese el nombre de usuario" 
+                           required 
+                           maxlength="100" 
+                           autocomplete="username">
+                    
+                    <div th:if="${#fields.hasErrors('usuario')}" class="invalid-feedback">
+                        <span th:errors="*{usuario}"></span>
+                    </div>
+                    <div class="form-help">
+                        Debe ser único en el sistema. Solo letras, números y puntos. Máximo 100 caracteres.
+                    </div>
+                </div>
+
+                <!-- Contraseña -->
+                <div class="form-group">
+                    <label for="password" class="form-label required">Contraseña</label>
+                    <input type="password" 
+                           id="password" 
+                           name="password"
+                           th:value="${usuario.password}"
+                           class="form-control"
+                           th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''"
+                           placeholder="Ingrese la contraseña" 
+                           required 
+                           maxlength="100" 
+                           autocomplete="new-password">
+                    
+                    <div th:if="${#fields.hasErrors('password')}" class="invalid-feedback">
+                        <span th:errors="*{password}"></span>
+                    </div>
+                    <div class="password-hint">
+                        <i class="fas fa-shield-alt"></i>
+                        <strong>Recomendación:</strong> Use una contraseña segura con al menos 3 caracteres.
+                    </div>
+                </div>
+
+                <!-- Rango -->
+                <div class="form-group">
+                    <label for="rango" class="form-label required">Rango/Rol del Usuario</label>
+                    <select id="rango" 
+                            name="rango"
+                            class="form-control form-select"
+                            th:classappend="${#fields.hasErrors('rango')} ? 'is-invalid' : ''"
+                            required>
+                        <option value="">Seleccione un rango</option>
+                        <option value="Administrador" th:selected="${usuario.rango == 'Administrador'}">Administrador</option>
+                        <option value="Empleado" th:selected="${usuario.rango == 'Empleado'}">Empleado</option>
+                        <option value="Supervisor" th:selected="${usuario.rango == 'Supervisor'}">Supervisor</option>
+                        <option value="Cajero" th:selected="${usuario.rango == 'Cajero'}">Cajero</option>
+                        <!-- Rangos dinámicos del sistema -->
+                        <option th:each="rangoExistente : ${rangosUnicos}" 
+                                th:if="${rangoExistente != 'Administrador' and rangoExistente != 'Empleado' and rangoExistente != 'Supervisor' and rangoExistente != 'Cajero'}"
+                                th:value="${rangoExistente}" 
+                                th:text="${rangoExistente}"
+                                th:selected="${usuario.rango == rangoExistente}">Otro Rango</option>
+                    </select>
+                    
+                    <div th:if="${#fields.hasErrors('rango')}" class="invalid-feedback">
+                        <span th:errors="*{rango}"></span>
+                    </div>
+                    <div class="form-help">
+                        <strong>Administrador:</strong> Acceso completo al sistema.<br>
+                        <strong>Empleado:</strong> Acceso a funciones operativas básicas.<br>
+                        <strong>Supervisor:</strong> Acceso a supervisión y reportes.<br>
+                        <strong>Cajero:</strong> Acceso a ventas y caja.
+                    </div>
+                </div>
+
+                <!-- Botones de acción -->
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" id="btnGuardar">
+                        <i class="fas fa-save"></i>
+                        <span th:text="${usuario.idusuario == null ? 'Crear Usuario' : 'Actualizar Usuario'}">Crear Usuario</span>
+                    </button>
+                    <a th:href="@{/usuarios}" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        console.log('🚀 Iniciando validaciones del formulario...');
+        
+        // Validación en tiempo real
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            const usuarioInput = document.getElementById('usuario');
+            const passwordInput = document.getElementById('password');
+            const rangoSelect = document.getElementById('rango');
+            const btnGuardar = document.getElementById('btnGuardar');
+
+            console.log('✅ Elementos del formulario encontrados');
+
+            // Validar usuario (sin espacios, solo letras, números y puntos)
+            if (usuarioInput) {
+                usuarioInput.addEventListener('input', function() {
+                    // Permitir solo letras, números y puntos
+                    let valor = this.value.replace(/[^a-zA-Z0-9.]/g, '');
+                    this.value = valor;
+                    
+                    // Validación visual
+                    if (valor.length < 3) {
+                        this.style.borderColor = '#ffc107';
+                    } else {
+                        this.style.borderColor = '#28a745';
+                    }
+                    
+                    console.log('📝 Usuario ingresado:', valor);
+                });
+            }
+
+            // Validar contraseña
+            if (passwordInput) {
+                passwordInput.addEventListener('input', function() {
+                    const password = this.value;
+                    
+                    // Cambiar color según la longitud
+                    if (password.length < 3) {
+                        this.style.borderColor = '#dc3545';
+                    } else if (password.length < 6) {
+                        this.style.borderColor = '#ffc107';
+                    } else {
+                        this.style.borderColor = '#28a745';
+                    }
+                    
+                    console.log('🔒 Contraseña ingresada, longitud:', password.length);
+                });
+            }
+
+            // Validar rango
+            if (rangoSelect) {
+                rangoSelect.addEventListener('change', function() {
+                    console.log('👤 Rango seleccionado:', this.value);
+                });
+            }
+
+            // Manejo del envío del formulario
+            form.addEventListener('submit', function(e) {
+                console.log('📤 Enviando formulario...');
+                
+                const usuario = usuarioInput.value.trim();
+                const password = passwordInput.value.trim();
+                const rango = rangoSelect.value;
+                
+                console.log('📋 Datos a enviar:');
+                console.log('   - Usuario:', usuario);
+                console.log('   - Password:', password ? '[DEFINIDA]' : '[VACÍA]');
+                console.log('   - Rango:', rango);
+                
+                // Validaciones básicas
+                if (!usuario || !password || !rango) {
+                    e.preventDefault();
+                    alert('Por favor, complete todos los campos obligatorios.');
+                    console.log('❌ Formulario incompleto');
+                    return;
+                }
+
+                if (usuario.length < 3) {
+                    e.preventDefault();
+                    alert('El nombre de usuario debe tener al menos 3 caracteres.');
+                    usuarioInput.focus();
+                    console.log('❌ Usuario muy corto');
+                    return;
+                }
+
+                if (password.length < 3) {
+                    e.preventDefault();
+                    alert('La contraseña debe tener al menos 3 caracteres.');
+                    passwordInput.focus();
+                    console.log('❌ Contraseña muy corta');
+                    return;
+                }
+
+                // Confirmación
+                const isEdit = document.querySelector('input[name="idusuario"]') !== null;
+                const mensaje = isEdit ? 
+                    '¿Desea guardar los cambios realizados al usuario "' + usuario + '"?' : 
+                    '¿Desea crear el nuevo usuario "' + usuario + '" con el rango "' + rango + '"?';
+                
+                if (!confirm(mensaje)) {
+                    e.preventDefault();
+                    console.log('❌ Usuario canceló la operación');
+                    return;
+                }
+                
+                // Deshabilitar botón para evitar doble envío
+                btnGuardar.disabled = true;
+                btnGuardar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...';
+                
+                console.log('✅ Formulario válido, enviando...');
+            });
+
+            // Auto-focus en el primer campo
+            if (usuarioInput) {
+                usuarioInput.focus();
+                console.log('🎯 Focus en campo usuario');
+            }
+            
+            // Auto-ocultar alertas después de 5 segundos
+            setTimeout(function() {
+                const alerts = document.querySelectorAll('.alert');
+                alerts.forEach(function(alert) {
+                    alert.style.transition = 'opacity 0.3s ease';
+                    alert.style.opacity = '0';
+                    setTimeout(() => {
+                        if (alert.parentNode) {
+                            alert.parentNode.removeChild(alert);
+                        }
+                    }, 300);
+                });
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
