@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios - Panadería Copacabana</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+	
+	<!--Ese link agrega el icon en la parte de arriba-->
+	<link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%238B4513'/><ellipse cx='50' cy='60' rx='30' ry='20' fill='%23F4A460'/><circle cx='35' cy='55' r='3' fill='%23D2691E'/><circle cx='50' cy='50' r='2' fill='%23D2691E'/><circle cx='65' cy='55' r='3' fill='%23D2691E'/></svg>">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 50%, #F4A460 100%);
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            color: #8B4513;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #8B4513;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(139, 69, 19, 0.1);
+            color: #D2691E;
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 69, 19, 0.3);
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .header-title {
+            color: #8B4513;
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #A0522D, #CD853F);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .search-section {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .search-form {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .form-control {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            min-width: 250px;
+            flex: 1;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #D2691E;
+        }
+
+        .table-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table th {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #8B4513;
+        }
+
+        .table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .badge {
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .badge-admin {
+            background: #dc3545;
+            color: white;
+        }
+
+        .badge-empleado {
+            background: #007bff;
+            color: white;
+        }
+
+        .badge-usuario {
+            background: #28a745;
+            color: white;
+        }
+
+        .badge-supervisor {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .badge-cajero {
+            background: #fd7e14;
+            color: white;
+        }
+
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            color: #ddd;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .header-section {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .search-form {
+                flex-direction: column;
+            }
+
+            .form-control {
+                min-width: 100%;
+            }
+
+            .table-section {
+                overflow-x: auto;
+            }
+
+            .table {
+                min-width: 600px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">
+                <i class="fas fa-bread-slice"></i>
+                Panadería Copacabana
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="/home"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="/categorias"><i class="fas fa-list-alt"></i> Categorías</a></li>
+                <li><a href="/clientes"><i class="fas fa-users"></i> Clientes</a></li>
+                <li><a href="/pedidos"><i class="fas fa-shopping-basket"></i> Pedidos</a></li>
+                <li><a href="/productos"><i class="fas fa-bread-slice"></i> Productos</a></li>
+                <li><a href="/usuarios"><i class="fas fa-user-shield"></i> Usuarios</a></li>
+                <li><a href="/vendedor"><i class="fas fa-user-tie"></i> Vendedor</a></li>
+            </ul>
+            
+            <a th:href="@{/logout}" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+            </a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header-section">
+            <h1 class="header-title">
+                <i class="fas fa-users-cog"></i> Gestión de Usuarios del Sistema
+            </h1>
+            <div class="header-actions">
+                <a th:href="@{/usuarios/nuevo}" class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i> Nuevo Usuario
+                </a>
+            </div>
+        </div>
+
+        <!-- Mensajes -->
+        <div th:if="${success}" class="alert alert-success">
+            <i class="fas fa-check-circle"></i>
+            <span th:text="${success}"></span>
+        </div>
+        
+        <div th:if="${error}" class="alert alert-danger">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span th:text="${error}"></span>
+        </div>
+
+        <!-- Búsqueda -->
+        <div class="search-section">
+            <form th:action="@{/usuarios}" method="get" class="search-form">
+                <input type="text" name="busqueda" class="form-control" 
+                       placeholder="Buscar por usuario o rango..."
+                       th:value="${busqueda}">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-search"></i> Buscar
+                </button>
+                <a th:href="@{/usuarios}" class="btn btn-secondary" th:if="${busqueda}">
+                    <i class="fas fa-times"></i> Limpiar
+                </a>
+            </form>
+        </div>
+
+        <!-- Tabla de usuarios -->
+        <div class="table-section">
+            <!-- Información de búsqueda -->
+            <div th:if="${busqueda}" style="margin-bottom: 15px;">
+                <strong>Resultados de búsqueda para: "<span th:text="${busqueda}"></span>"</strong>
+                <span th:text="'(' + ${#lists.size(usuarios)} + ' encontrados)'"></span>
+            </div>
+
+            <div th:if="${rangoSeleccionado}" style="margin-bottom: 15px;">
+                <strong>Usuarios con rango: <span th:text="${rangoSeleccionado}"></span></strong>
+                <span th:text="'(' + ${#lists.size(usuarios)} + ' usuarios)'"></span>
+            </div>
+
+            <!-- Estado vacío -->
+            <div th:if="${#lists.isEmpty(usuarios)}" class="empty-state">
+                <div class="empty-icon">
+                    <i class="fas fa-users-cog"></i>
+                </div>
+                <h3 th:if="${busqueda}">No se encontraron usuarios</h3>
+                <h3 th:unless="${busqueda}">No hay usuarios registrados</h3>
+                <p th:if="${busqueda}">Intenta con otros términos de búsqueda</p>
+                <p th:unless="${busqueda}">Comienza agregando tu primer usuario</p>
+                <a th:href="@{/usuarios/nuevo}" class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i> Agregar Primer Usuario
+                </a>
+            </div>
+
+            <!-- Tabla con usuarios -->
+            <div th:unless="${#lists.isEmpty(usuarios)}">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Rango</th>
+                            <th>ID</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="usuario : ${usuarios}">
+                            <td>
+                                <div style="display: flex; align-items: center;">
+                                    <div class="user-avatar" th:text="${#strings.substring(usuario.usuario, 0, 1).toUpperCase()}">U</div>
+                                    <span th:text="${usuario.usuario}">admin</span>
+                                </div>
+                            </td>
+                            <td>
+                                <span th:if="${usuario.rango == 'Administrador'}" class="badge badge-admin">Administrador</span>
+                                <span th:if="${usuario.rango == 'Empleado'}" class="badge badge-empleado">Empleado</span>
+                                <span th:if="${usuario.rango == 'Supervisor'}" class="badge badge-supervisor">Supervisor</span>
+                                <span th:if="${usuario.rango == 'Cajero'}" class="badge badge-cajero">Cajero</span>
+                                <span th:if="${usuario.rango != 'Administrador' and usuario.rango != 'Empleado' and usuario.rango != 'Supervisor' and usuario.rango != 'Cajero'}" 
+                                      class="badge badge-usuario" th:text="${usuario.rango}">Usuario</span>
+                            </td>
+                            <td th:text="${usuario.idusuario}">1</td>
+                            <td>
+                                <div style="display: flex; gap: 5px; flex-wrap: wrap;">
+                                    <a th:href="@{/usuarios/ver/{id}(id=${usuario.idusuario})}" 
+                                       class="btn btn-secondary btn-sm" title="Ver detalles">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a th:href="@{/usuarios/editar/{id}(id=${usuario.idusuario})}" 
+                                       class="btn btn-warning btn-sm" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <button th:data-id="${usuario.idusuario}" 
+                                            th:data-usuario="${usuario.usuario}"
+                                            class="btn btn-danger btn-sm btn-eliminar" 
+                                            title="Eliminar"
+                                            onclick="confirmarEliminar(this.getAttribute('data-id'), this.getAttribute('data-usuario'))">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Información de total -->
+                <div style="margin-top: 15px; text-align: center; color: #666;">
+                    <small>Total de usuarios mostrados: <strong th:text="${#lists.size(usuarios)}">0</strong></small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Formulario oculto para eliminar -->
+    <form id="formEliminar" method="post" style="display: none;">
+        <input type="hidden" name="_method" value="post">
+    </form>
+
+    <script>
+        function confirmarEliminar(id, usuario) {
+            if (confirm('¿Estás seguro de que deseas eliminar al usuario "' + usuario + '"?\n\nEsta acción no se puede deshacer.')) {
+                const form = document.getElementById('formEliminar');
+                form.action = '/usuarios/eliminar/' + id;
+                form.submit();
+            }
+        }
+
+        // Auto-hide alerts
+        setTimeout(function() {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                alert.style.opacity = '0';
+                setTimeout(() => {
+                    if (alert.parentNode) {
+                        alert.parentNode.removeChild(alert);
+                    }
+                }, 300);
+            });
+        }, 5000);
+
+        // Efecto hover en la tabla
+        document.addEventListener('DOMContentLoaded', function() {
+            const rows = document.querySelectorAll('.table tbody tr');
+            rows.forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = '#f8f9fa';
+                });
+                row.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = '';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
